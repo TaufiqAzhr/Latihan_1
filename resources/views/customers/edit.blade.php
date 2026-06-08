@@ -1,0 +1,14 @@
+
+@extends('layouts.admin')
+@section('content')
+    <h2>Edit Customer</h2>
+    <form action="{{ route('customers.update', $customer->id) }}" method="POST">
+        @csrf @method('PUT')
+        <div class="mb-3"><label>Kode</label><input type="text" name="kode" value="{{ $customer->kode }}" class="form-control" required></div>
+        <div class="mb-3"><label>Nama</label><input type="text" name="nama" value="{{ $customer->nama }}" class="form-control" required></div>
+        <div class="mb-3"><label>Alamat</label><textarea name="alamat" class="form-control">{{ $customer->alamat }}</textarea></div>
+        <div class="mb-3"><label>Telepon</label><input type="text" name="telepon" value="{{ $customer->telepon }}" class="form-control"></div>
+        <div class="mb-3"><label>Email</label><input type="email" name="email" value="{{ $customer->email }}" class="form-control"></div>
+        <button class="btn btn-success">Update</button>
+    </form>
+@endsection

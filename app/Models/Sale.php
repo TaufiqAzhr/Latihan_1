@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Sale extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['kode', 'nama', 'category_id', 'satuan', 'harga', 'stok'];
+    protected $fillable = ['kode', 'customer_id', 'sale_date', 'total_amount'];
 
-    public function category()
+    public function customer()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function saleItems()

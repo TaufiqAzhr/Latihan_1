@@ -1,64 +1,28 @@
-<x-app-layout>
 
-<div class="container mt-4">
-
+@extends('layouts.admin')
+@section('content')
     <div class="d-flex justify-content-between mb-3">
-        <h1>Data Products</h1>
-
-        <a href="{{ route('products.create') }}" class="btn btn-primary">
-            Add Product
-        </a>
+        <h2>Products</h2>
+        <a href="{{ route('products.create') }}" class="btn btn-primary">Add Product</a>
     </div>
-
     <table class="table table-bordered">
-
-        <tr>
-            <th>ID</th>
-            <th>Kode</th>
-            <th>Nama</th>
-            <th>Satuan</th>
-            <th>Harga</th>
-            <th>Action</th>
-        </tr>
-
-        @foreach($products as $product)
-
-        <tr>
-            <td>{{ $product->id }}</td>
-            <td>{{ $product->kode }}</td>
-            <td>{{ $product->nama }}</td>
-            <td>{{ $product->satuan }}</td>
-            <td>{{ $product->harga }}</td>
-
-            <td>
-
-                <a href="{{ route('products.edit', $product->id) }}"
-                    class="btn btn-warning btn-sm">
-                    Edit
-                </a>
-
-                <form action="{{ route('products.destroy', $product->id) }}"
-                    method="POST"
-                    class="d-inline">
-
-                    @csrf
-                    @method('DELETE')
-
-                    <button type="submit"
-                        class="btn btn-danger btn-sm">
-                        Delete
-                    </button>
-
-                </form>
-
-            </td>
-
-        </tr>
-
-        @endforeach
-
+        <thead>
+            <tr><th>Kode</th><th>Nama</th><th>Kategori</th><th>Satuan</th><th>Harga</th><th>Stok</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            @foreach($products as $p)
+            <tr>
+                <td>{{ $p->kode }}</td><td>{{ $p->nama }}</td><td>{{ $p->category->nama ?? '' }}</td>
+                <td>{{ $p->satuan }}</td><td>{{ $p->harga }}</td><td>{{ $p->stok }}</td>
+                <td>
+                    <a href="{{ route('products.edit', $p->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <form action="{{ route('products.destroy', $p->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete?')">
+                        @csrf @method('DELETE')
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
     </table>
-
-</div>
-
-</x-app-layout>
+@endsection
