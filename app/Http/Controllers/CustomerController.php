@@ -49,7 +49,11 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer)
     {
-        $customer->delete();
-        return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+        try {
+            $customer->delete();
+            return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('customers.index')->with('error', 'Gagal menghapus! Data ini sedang digunakan di transaksi penjualan.');
+        }
     }
 }

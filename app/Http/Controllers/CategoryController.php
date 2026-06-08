@@ -47,7 +47,11 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        $category->delete();
-        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
+        try {
+            $category->delete();
+            return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('categories.index')->with('error', 'Gagal menghapus! Data kategori ini sedang digunakan oleh produk.');
+        }
     }
 }

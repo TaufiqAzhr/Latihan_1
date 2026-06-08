@@ -60,7 +60,11 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        try {
+            $product->delete();
+            return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('products.index')->with('error', 'Gagal menghapus! Data produk ini sedang digunakan di transaksi penjualan.');
+        }
     }
 }
